@@ -1,6 +1,4 @@
-import { combineReducers } from "redux";
-import login from "./Navbar/reducer";
+import { combineReducers } from 'redux';
+import login from './Navbar/reducer';
 
-export default combineReducers({
-  login
-});
+export default combineReducers({ login });

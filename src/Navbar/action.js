@@ -1,7 +1,7 @@
-import { Auth } from "aws-amplify";
+import { Auth } from 'aws-amplify';
 
-import "../aws_config";
-import * as types from "../types";
+import '../aws_config';
+import * as types from '../types';
 
 const loginActionSend = () => {
   return { type: types.LOGIN_ACTION_SEND };
@@ -12,11 +12,7 @@ const loginActionReceived = () => {
 const loginErrorShown = () => {
   return { type: types.LOGIN_ERROR_SHOWN };
 };
-export const loginAction = (username, password) => async (
-  dispatch,
-  getState
-) => {
-  console.log(getState());
+export const loginAction = (username, password) => async (dispatch, getState) => {
   dispatch(loginErrorShown());
   dispatch(loginActionSend());
   try {
