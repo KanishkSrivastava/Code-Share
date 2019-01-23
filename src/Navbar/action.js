@@ -13,7 +13,7 @@ const loginErrorShown = () => {
   return { type: types.LOGIN_ERROR_SHOWN };
 };
 export const loginAction = (username, password) => async (dispatch, getState) => {
-  dispatch(loginErrorShown());
+  if (getState().login.err) dispatch(loginErrorShown());
   dispatch(loginActionSend());
   try {
     const { signInUserSession } = await Auth.signIn({ username, password });
