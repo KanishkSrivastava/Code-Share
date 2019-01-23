@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import Loading from '../Loading';
 import { loginAction } from './action';
 
 export class NavBarNotLogedIn extends Component {
@@ -20,13 +21,16 @@ export class NavBarNotLogedIn extends Component {
   render() {
     return (
       <Grid container alignItems='center'>
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} md={1}>
+          <Loading />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <Typography variant='h4' color='inherit'>
             Code Share
           </Typography>
         </Grid>
         <Grid item xs={12} md={5}>
-          <Grid container alignContent='space-between' alignItems='center'>
+          <Grid container alignItems='center'>
             <Grid item xs={6} md={4}>
               <TextField
                 data-test='username-input-field'
@@ -36,6 +40,9 @@ export class NavBarNotLogedIn extends Component {
                 margin='dense'
                 value={this.state.username}
                 onChange={username => this.setState({ username: username.target.value })}
+                onKeyPress={e => {
+                  if (e.which === 13) this.loginButtonOnClick();
+                }}
               />
             </Grid>
             <Grid item xs={6} md={4}>
@@ -43,11 +50,13 @@ export class NavBarNotLogedIn extends Component {
                 data-test='password-input-field'
                 id='outlined-name'
                 label='Password'
+                type='password'
                 variant='outlined'
                 margin='dense'
                 value={this.state.password}
-                onChange={password => {
-                  this.setState({ password: password.target.value });
+                onChange={password => this.setState({ password: password.target.value })}
+                onKeyPress={e => {
+                  if (e.which === 13) this.loginButtonOnClick();
                 }}
               />
             </Grid>

@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import NavBarNotLogedIn from './NavBarNotLogedIn';
+
 const NavBarLogedIn = () => (
   <Grid container>
     <Grid item xs={12}>

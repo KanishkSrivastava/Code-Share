@@ -1,6 +1,6 @@
 import * as types from '../types';
 
-const initialState = { loading: false, login: { status: false, accessToken: null }, err: null };
+const initialState = { loading: false, err: null, status: false };
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case types.LOGIN_ACTION_RECEIVED:
       return { ...state, loading: false };
     case types.USER_LOGIN_DATA:
-      return { ...state, login: { status: true, accessToken: action.payload } };
+      return { ...state, status: true };
     case types.USER_LOGIN_ERROR:
       return { ...state, err: action.payload };
     case types.LOGIN_ERROR_SHOWN:
