@@ -18,7 +18,7 @@ const NavBarLogedIn = () => (
 );
 export default props => {
   return (
-    <AppBar data-test='appbar-component'>
+    <AppBar m={2} data-test='appbar-component'>
       <Toolbar>
         {props.logedIn ? (
           <NavBarLogedIn data-test='appbar-loggedIn' />

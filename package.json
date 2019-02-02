@@ -6,6 +6,7 @@
     "@material-ui/core": "^3.8.3",
     "@material-ui/icons": "^3.0.2",
     "aws-amplify": "^1.1.19",
+    "connected-react-router": "^6.2.2",
     "dotenv": "^6.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

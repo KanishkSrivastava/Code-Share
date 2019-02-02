@@ -1,4 +1,5 @@
 import { Auth } from 'aws-amplify';
+import { push } from 'connected-react-router';
 
 import '../aws_config';
 import * as types from '../types';
@@ -21,6 +22,7 @@ export const loginAction = (username, password) => async (dispatch, getState) =>
       type: types.USER_LOGIN_DATA,
       payload: signInUserSession.accessToken.jwtToken
     });
+    dispatch(push('/home'));
   } catch (err) {
     dispatch({ type: types.USER_LOGIN_ERROR, payload: err.message });
   }
