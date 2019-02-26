@@ -27,15 +27,7 @@ export default class Dashboard extends Component {
     this.setState({ currentPath: newPath });
   };
   makeFolder() {
-    // TODO: Get Data from Redux Store
-    const filePath = [
-      'one.js',
-      'onefolder/one.js',
-      'onefolder/onefolder/two.js',
-      'twofolder/two.js',
-      'twofolder/three.js',
-      'twofolder/twofolder/one.js'
-    ];
+    const { filePath } = this.props;
     let homeFolders = new Set();
     let homeFiles = [];
     filePath.forEach(element => {
@@ -114,19 +106,20 @@ export default class Dashboard extends Component {
       );
   }
   render() {
-    return (
-      <div style={{ marginTop: 100 }}>
+    const { filePath } = this.props;
+    if (filePath.length !== 0)
+      return (
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={12} data-test='navigation-button'>
             <Fab size='small' color='primary' aria-label='Add' onClick={this.onBackButtonClick}>
               <BackIcon />
             </Fab>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} data-test='folder-tree'>
             {this.makeFolder()}
           </Grid>
         </Grid>
-      </div>
-    );
+      );
+    else return <div data-test='no-files'>No Files</div>;
   }
 }
