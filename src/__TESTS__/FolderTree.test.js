@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Dashboard from './FolderTree';
+import FolderTree from '../Profile/FolderTree';
 import { findByTestAttribute } from '../testUtils/utils';
 const setup = (Component, props = {}) => {
   return shallow(<Component {...props} />);
@@ -11,7 +11,7 @@ describe('testing folder tree component', () => {
     const props = {
       filePath: []
     };
-    const wrapper = setup(Dashboard, props);
+    const wrapper = setup(FolderTree, props);
     const component = findByTestAttribute(wrapper, 'no-files');
     expect(component.length).toBe(1);
   });
@@ -26,7 +26,7 @@ describe('testing folder tree component', () => {
         'twofolder/twofolder/one.js'
       ]
     };
-    const wrapper = setup(Dashboard, props);
+    const wrapper = setup(FolderTree, props);
 
     test('should render folder tree component', () => {
       const component = findByTestAttribute(wrapper, 'folder-tree');

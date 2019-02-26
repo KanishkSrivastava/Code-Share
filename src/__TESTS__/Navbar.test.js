@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Navbar from './Navbar';
-import { NavBarNotLogedIn } from './NavBarNotLogedIn';
+import Navbar from '../Navbar/Navbar';
+import { NavBarNotLogedIn } from '../Navbar/NavBarNotLogedIn';
 
 import { findByTestAttribute } from '../testUtils/utils';
 const setup = (Component, props = {}) => {
