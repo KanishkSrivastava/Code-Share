@@ -1,28 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 
 import FolderTree from './FolderTree';
-//  DUMMY DATA for File Path
-const filePath = [
-  'one.js',
-  'onefolder/one.js',
-  'onefolder/onefolder/two.js',
-  'twofolder/two.js',
-  'twofolder/three.js',
-  'twofolder/twofolder/one.js'
-];
+
 class LandingPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { filePath: [] };
+  }
+  componentWillReceiveProps({ allFiles }) {
+    if (this.props.allFiles !== allFiles) {
+      const filePath = [];
+      Object.keys(allFiles).forEach(key => {
+        filePath.push(allFiles[key]);
+      });
+      this.setState({ filePath });
+    }
+  }
   render() {
     return (
       <div style={{ marginTop: 100 }}>
         <Grid container>
           <Grid item xs={3}>
-            <FolderTree filePath={filePath} />
+            <FolderTree filePath={this.state.filePath} />
           </Grid>
         </Grid>
       </div>
     );
   }
 }
-export default LandingPage;
+const mapStateToProps = ({ user }) => {
+  return {
+    allFiles: user.allFiles
+  };
+};
+export default connect(mapStateToProps)(LandingPage);
