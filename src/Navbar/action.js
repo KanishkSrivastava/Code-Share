@@ -2,6 +2,7 @@ import { Auth } from 'aws-amplify';
 import { push } from 'connected-react-router';
 
 import '../aws_config';
+import { updateUserDetails, getFilePath } from '../Profile/action';
 import * as types from '../types';
 
 const loginActionSend = () => {
@@ -18,11 +19,14 @@ export const loginAction = (username, password) => async (dispatch, getState) =>
   dispatch(loginActionSend());
   try {
     const { signInUserSession } = await Auth.signIn({ username, password });
+    console.log(signInUserSession);
     dispatch({
       type: types.USER_LOGIN_DATA,
-      payload: signInUserSession.accessToken.jwtToken
+      payload: signInUserSession.idToken.jwtToken
     });
+    dispatch(updateUserDetails(signInUserSession.idToken.payload));
     dispatch(push('/home'));
+    dispatch(getFilePath());
   } catch (err) {
     dispatch({ type: types.USER_LOGIN_ERROR, payload: err.message });
   }
