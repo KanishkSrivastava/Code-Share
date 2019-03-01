@@ -5,6 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import { NavBarNotLogedIn } from '../Navbar/NavBarNotLogedIn';
 
 import { findByTestAttribute } from '../testUtils/utils';
+
 const setup = (Component, props = {}) => {
   return shallow(<Component {...props} />);
 };
@@ -15,6 +16,7 @@ describe('testing navbar', () => {
     const component = findByTestAttribute(wrapper, 'appbar-component');
     expect(component.length).toBe(1);
   });
+
   describe('if user loggedOut', () => {
     test('render loggedOut navbar if loggedOut', () => {
       const props = { logedIn: false };
@@ -22,25 +24,25 @@ describe('testing navbar', () => {
       const component = findByTestAttribute(wrapper, 'appbar-not-loggedIn');
       expect(component.length).toBe(1);
     });
+
     describe('testing NavBarNotLogedIn component', () => {
       const props = { loginAction: jest.fn() };
       const wrapper = setup(NavBarNotLogedIn, props);
+
       test('testing login input field', () => {
         const userNameInputComponent = findByTestAttribute(wrapper, 'username-input-field');
         expect(userNameInputComponent.length).toBe(1);
-        userNameInputComponent.simulate('change', {
-          target: { value: 'USERNAME' }
-        });
+        userNameInputComponent.simulate('change', { target: { value: 'USERNAME' } });
         expect(wrapper.state('username')).toBe('USERNAME');
       });
+
       test('testing password input field', () => {
         const userNameInputComponent = findByTestAttribute(wrapper, 'password-input-field');
         expect(userNameInputComponent.length).toBe(1);
-        userNameInputComponent.simulate('change', {
-          target: { value: 'PASSWORD' }
-        });
+        userNameInputComponent.simulate('change', { target: { value: 'PASSWORD' } });
         expect(wrapper.state('password')).toBe('PASSWORD');
       });
+
       test('testing login button', () => {
         const loginButon = findByTestAttribute(wrapper, 'login-button');
         loginButon.props().onClick();
@@ -48,6 +50,7 @@ describe('testing navbar', () => {
       });
     });
   });
+
   describe('if user logged in', () => {
     test('render loggedIn navbar if loggedIn', () => {
       const props = { logedIn: true };
