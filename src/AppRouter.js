@@ -29,7 +29,6 @@ const mapStateToProps = ({ login }) => {
 };
 export default connect(mapStateToProps)(AppRouter);
 const PrivateRoute = ({ Component, status, path }) => {
-  console.log(status);
   return (
     <Route
       path={path}

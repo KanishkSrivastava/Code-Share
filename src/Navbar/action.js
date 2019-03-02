@@ -19,7 +19,6 @@ export const loginAction = (username, password) => async (dispatch, getState) =>
   dispatch(loginActionSend());
   try {
     const { signInUserSession } = await Auth.signIn({ username, password });
-    console.log(signInUserSession);
     dispatch({
       type: types.USER_LOGIN_DATA,
       payload: signInUserSession.idToken.jwtToken
