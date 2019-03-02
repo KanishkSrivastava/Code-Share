@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -10,14 +11,19 @@ import FolderIcon from '@material-ui/icons/Folder';
 import FileIcon from '@material-ui/icons/InsertDriveFile';
 import BackIcon from '@material-ui/icons/ArrowBack';
 
-export default class Dashboard extends Component {
+import { fileContent } from './actions/actionGetFileContent';
+
+export class FolderTree extends Component {
   constructor(props) {
     super(props);
     this.state = { currentPath: '' };
   }
   onFolderClick = folder => this.setState({ currentPath: `${this.state.currentPath}${folder}/` });
   // TODO : make file Click handler
-  onFileClick = file => {};
+  onFileClick = file => {
+    const filePath = `${this.state.currentPath}${file}`;
+    this.props.fileContent(filePath);
+  };
   onBackButtonClick = () => {
     let { currentPath } = this.state;
     let newPath = '';
@@ -47,7 +53,7 @@ export default class Dashboard extends Component {
     const returnHomeFiles = () => {
       return homeFiles.map(file => {
         return (
-          <ListItem button key={file}>
+          <ListItem button key={file} onClick={() => this.onFileClick(file)}>
             <FileIcon color='primary' />
             <ListItemText primary={file} />
           </ListItem>
@@ -81,7 +87,7 @@ export default class Dashboard extends Component {
           if (!item.includes('/')) {
             const file = item;
             return (
-              <ListItem button key={file}>
+              <ListItem button key={file} onClick={() => this.onFileClick(file)}>
                 <FileIcon color='primary' />
                 <ListItemText primary={file} />
               </ListItem>
@@ -123,3 +129,7 @@ export default class Dashboard extends Component {
     else return <div data-test='no-files'>No Files</div>;
   }
 }
+export default connect(
+  null,
+  { fileContent }
+)(FolderTree);

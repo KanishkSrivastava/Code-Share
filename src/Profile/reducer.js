@@ -1,6 +1,15 @@
 import * as types from '../types';
 
-const initialState = { email: null, username: null, id: null, error: null, allFiles: {}, loading: false };
+const initialState = {
+  email: null,
+  username: null,
+  id: null,
+  error: null,
+  allFiles: {},
+  loading: false,
+  loadingFileContent: false,
+  selectedFileContent: ''
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -19,6 +28,13 @@ export default (state = initialState, action) => {
     case types.USER_ALL_FILES:
       const allFiles = action.payload;
       return { ...state, allFiles };
+    case types.USER_GET_FILE_CONTENT:
+      return { ...state, loadingFileContent: true };
+    case types.USER_GOT_FILE_CONTENT:
+      return { ...state, loadingFileContent: false };
+    case types.USER_FILE_CONTENT:
+      const selectedFileContent = action.payload;
+      return { ...state, selectedFileContent };
     default:
       return state;
   }

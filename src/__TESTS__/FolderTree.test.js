@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import FolderTree from '../Profile/FolderTree';
+import { FolderTree } from '../Profile/FolderTree';
 import { findByTestAttribute } from '../testUtils/utils';
 
 const setup = (Component, props = {}) => {

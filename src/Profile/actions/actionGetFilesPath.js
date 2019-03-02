@@ -9,7 +9,7 @@ export const updateUserDetails = user => {
   };
   return { type: types.USER_DETAILS, payload };
 };
-const userErrorShown = () => {
+export const userErrorShown = () => {
   return { type: types.USER_ERROR_SHOWN };
 };
 const getFiles = () => {
@@ -17,6 +17,9 @@ const getFiles = () => {
 };
 const gotFiles = () => {
   return { type: types.USER_GOT_FILES };
+};
+export const userError = error => {
+  return { type: types.USER_ERROR, payload: error.message };
 };
 export const getFilePath = () => async (dispatch, getState) => {
   dispatch(getFiles());
@@ -31,7 +34,7 @@ export const getFilePath = () => async (dispatch, getState) => {
     if (data.statusCode !== 200) throw new Error(data.error);
     else dispatch({ type: types.USER_ALL_FILES, payload: data.files });
   } catch (error) {
-    dispatch({ type: types.USER_ERROR, payload: error.message });
+    dispatch(userError(error));
   }
   dispatch(gotFiles());
 };
