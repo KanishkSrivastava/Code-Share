@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
-import * as profileActions from '../Profile/action';
+import * as profileActions from '../Profile/actions/actionGetFilesPath';
 import * as types from '../types';
 
 const middlewares = [thunk];

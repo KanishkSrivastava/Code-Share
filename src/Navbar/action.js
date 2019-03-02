@@ -2,7 +2,7 @@ import { Auth } from 'aws-amplify';
 import { push } from 'connected-react-router';
 
 import '../aws_config';
-import { updateUserDetails, getFilePath } from '../Profile/action';
+import { updateUserDetails, getFilePath } from '../Profile/actions/actionGetFilesPath';
 import * as types from '../types';
 
 const loginActionSend = () => {
