@@ -17,8 +17,9 @@ describe('testing folder tree component', () => {
   });
 
   describe('testing folder tree component with files', () => {
-    const props = { filePath: ['one.js', 'onefolder/one.js', 'twofolder/twofolder/one.js'] };
-    const wrapper = setup(FolderTree, props);
+    let wrapper;
+    const props = { filePath: ['one.js', 'onefolder/one.js', 'twofolder/twofolder/one.js'], fileContent: jest.fn() };
+    beforeEach(() => (wrapper = setup(FolderTree, props)));
 
     test('should render folder tree component', () => {
       const component = findByTestAttribute(wrapper, 'folder-tree');
@@ -41,6 +42,14 @@ describe('testing folder tree component', () => {
         .first();
       component.simulate('click');
       expect(wrapper.state('currentPath')).toBe('onefolder/');
+    });
+
+    test('should call "fileContent" function on file click ', () => {
+      const component = findByTestAttribute(wrapper, 'folder-tree')
+        .find('WithStyles(ListItem)')
+        .at(2);
+      component.simulate('click');
+      expect(props.fileContent.mock.calls.length).toBe(1);
     });
 
     test('should render navigation button', () => {
