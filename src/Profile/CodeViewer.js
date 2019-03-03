@@ -4,7 +4,6 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { githubGist } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const CodeViewer = ({ content }) => {
-  console.log(content);
   const height = window.innerHeight - 200;
   if (content.length === 0) return <div>No Selected Files</div>;
   else

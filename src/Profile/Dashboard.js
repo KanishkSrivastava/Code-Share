@@ -20,7 +20,6 @@ class LandingPage extends React.Component {
       this.setState({ filePath });
     }
     this.setState({ content });
-    console.log(content);
   }
   render() {
     return (
