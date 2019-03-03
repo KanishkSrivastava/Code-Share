@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
-import * as profileActions from '../Profile/actions/actionGetFilesPath';
+import * as profileActionsGetFilePath from '../Profile/actions/actionGetFilesPath';
 import * as types from '../types';
 
 const middlewares = [thunk];
@@ -35,7 +35,7 @@ describe('Profile Actions', () => {
       { type: types.USER_ALL_FILES, payload: { 'a89-s12': 'one/a.js', 'sa65-l98': 'two/b.cpp' } },
       { type: types.USER_GOT_FILES }
     ];
-    await store.dispatch(profileActions.getFilePath());
+    await store.dispatch(profileActionsGetFilePath.getFilePath());
     expect(store.getActions()).toEqual(actions);
   });
 
@@ -54,7 +54,7 @@ describe('Profile Actions', () => {
       { type: types.USER_ERROR, payload: 'internal server error' },
       { type: types.USER_GOT_FILES }
     ];
-    await store.dispatch(profileActions.getFilePath());
+    await store.dispatch(profileActionsGetFilePath.getFilePath());
     expect(store.getActions()).toEqual(actions);
   });
 });
