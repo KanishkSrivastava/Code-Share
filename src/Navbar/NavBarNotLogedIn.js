@@ -12,7 +12,7 @@ import { loginAction } from './action';
 export class NavBarNotLogedIn extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', password: '' };
+    this.state = { username: 'kanishk1997', password: '123456' };
   }
   loginButtonOnClick() {
     const { username, password } = this.state;
