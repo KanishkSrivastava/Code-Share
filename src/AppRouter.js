@@ -32,9 +32,7 @@ const PrivateRoute = ({ Component, status, path }) => {
   return (
     <Route
       path={path}
-      render={props =>
-        status ? <Component {...props} /> : <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-      }
+      render={props => (status ? <Component {...props} /> : <Redirect to={{ pathname: '/', state: { from: props.location } }} />)}
     />
   );
 };

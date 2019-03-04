@@ -24,11 +24,7 @@ export default props => {
   return (
     <AppBar m={2} data-test='appbar-component'>
       <Toolbar>
-        {props.logedIn ? (
-          <NavBarLogedIn data-test='appbar-loggedIn' />
-        ) : (
-          <NavBarNotLogedIn data-test='appbar-not-loggedIn' />
-        )}
+        {props.logedIn ? <NavBarLogedIn data-test='appbar-loggedIn' /> : <NavBarNotLogedIn data-test='appbar-not-loggedIn' />}
       </Toolbar>
     </AppBar>
   );

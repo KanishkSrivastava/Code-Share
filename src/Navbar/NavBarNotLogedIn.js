@@ -63,12 +63,7 @@ export class NavBarNotLogedIn extends Component {
             <Grid item xs={8} md={4}>
               <Grid container>
                 <Grid item xs={6}>
-                  <Button
-                    data-test='login-button'
-                    variant='outlined'
-                    color='inherit'
-                    onClick={this.loginButtonOnClick.bind(this)}
-                  >
+                  <Button data-test='login-button' variant='outlined' color='inherit' onClick={this.loginButtonOnClick.bind(this)}>
                     Login
                   </Button>
                 </Grid>

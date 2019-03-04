@@ -138,17 +138,11 @@ export class FolderTree extends Component {
     if (filePath.length !== 0)
       return (
         <Grid container>
-          <Grid item xs={12} data-test='navigation-button'>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='Add'
-              style={{ marginRight: 15 }}
-              onClick={this.onBackButtonClick}
-            >
+          <Grid item xs={12}>
+            <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onBackButtonClick} data-test='back-button'>
               <BackIcon />
             </Fab>
-            <Fab size='small' color='primary' onClick={this.onNewFolderClick}>
+            <Fab size='small' color='primary' onClick={this.onNewFolderClick} data-test='new-folder-button'>
               <NewFolder />
             </Fab>
           </Grid>
