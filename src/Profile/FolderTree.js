@@ -35,7 +35,11 @@ export class FolderTree extends Component {
     newPath = newPath.substring(1);
     this.setState({ currentPath: newPath });
   };
-  onNewFolderClick = () => this.setState({ newFolderInput: 'block' });
+  onNewFolderClick = () => {
+    const { newFolderInput } = this.state;
+    if (newFolderInput === 'block') this.setState({ newFolderInput: 'none' });
+    else this.setState({ newFolderInput: 'block' });
+  };
   onDoneClick = () => {
     let { filePath, currentPath, newFolder } = this.state;
     if (newFolder.length !== 0) {
@@ -148,22 +152,20 @@ export class FolderTree extends Component {
               <NewFolder />
             </Fab>
           </Grid>
-          <div style={{ marginLeft: 10, display: this.state.newFolderInput }}>
-            <Grid item xs={12} md={8} data-test='new-folder-input'>
-              <Grid container alignItems='flex-end'>
-                <TextField
-                  id='outlined-name'
-                  label='New Folder'
-                  value={this.state.newFolder}
-                  onChange={newFolder => this.setState({ newFolder: newFolder.target.value })}
-                />
-                <div style={{ cursor: 'pointer' }}>
-                  <Done onClick={this.onDoneClick} />
-                  <Clear color='error' onClick={this.onClearClick} />
-                </div>
-              </Grid>
+          <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFolderInput }}>
+            <Grid container alignItems='flex-end' data-test='new-folder-input'>
+              <TextField
+                id='outlined-name'
+                label='New Folder'
+                value={this.state.newFolder}
+                onChange={newFolder => this.setState({ newFolder: newFolder.target.value })}
+              />
+              <div style={{ cursor: 'pointer' }}>
+                <Done onClick={this.onDoneClick} />
+                <Clear color='error' onClick={this.onClearClick} />
+              </div>
             </Grid>
-          </div>
+          </Grid>
           <Grid item xs={12} data-test='folder-tree'>
             {this.makeFolder()}
           </Grid>
