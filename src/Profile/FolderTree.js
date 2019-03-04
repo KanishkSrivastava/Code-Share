@@ -5,21 +5,24 @@ import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 
 import FolderIcon from '@material-ui/icons/Folder';
 import FileIcon from '@material-ui/icons/InsertDriveFile';
 import BackIcon from '@material-ui/icons/ArrowBack';
+import NewFolder from '@material-ui/icons/CreateNewFolder';
+import Done from '@material-ui/icons/Done';
+import Clear from '@material-ui/icons/Clear';
 
 import { fileContent } from './actions/actionGetFileContent';
 
 export class FolderTree extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentPath: '' };
+    this.state = { currentPath: '', filePath: this.props.filePath, newFolderInput: 'none', newFolder: '' };
   }
   onFolderClick = folder => this.setState({ currentPath: `${this.state.currentPath}${folder}/` });
-  // TODO : make file Click handler
   onFileClick = file => {
     const filePath = `${this.state.currentPath}${file}`;
     this.props.fileContent(filePath);
@@ -32,8 +35,21 @@ export class FolderTree extends Component {
     newPath = newPath.substring(1);
     this.setState({ currentPath: newPath });
   };
+  onNewFolderClick = () => this.setState({ newFolderInput: 'block' });
+  onDoneClick = () => {
+    let { filePath, currentPath, newFolder } = this.state;
+    if (newFolder.length !== 0) {
+      const path = `${currentPath}${newFolder}/empty`;
+      filePath.push(path);
+      this.setState({ filePath, newFolder: '', newFolderInput: 'none' });
+    } else this.setState({ newFolder: '', newFolderInput: 'none' });
+  };
+  onClearClick = () => this.setState({ newFolderInput: 'none', newFolder: '' });
+  componentWillReceiveProps({ filePath }) {
+    this.setState({ filePath });
+  }
   makeFolder() {
-    const { filePath } = this.props;
+    const { filePath } = this.state;
     let homeFolders = new Set();
     let homeFiles = [];
     filePath.forEach(element => {
@@ -52,12 +68,13 @@ export class FolderTree extends Component {
     };
     const returnHomeFiles = () => {
       return homeFiles.map(file => {
-        return (
-          <ListItem button key={file} onClick={() => this.onFileClick(file)}>
-            <FileIcon color='primary' />
-            <ListItemText primary={file} />
-          </ListItem>
-        );
+        if (file !== 'empty')
+          return (
+            <ListItem button key={file} onClick={() => this.onFileClick(file)}>
+              <FileIcon color='primary' />
+              <ListItemText primary={file} />
+            </ListItem>
+          );
       });
     };
     const returnInsideFolder = () => {
@@ -86,12 +103,13 @@ export class FolderTree extends Component {
           const item = folderAndFiles.replace(this.state.currentPath, '');
           if (!item.includes('/')) {
             const file = item;
-            return (
-              <ListItem button key={file} onClick={() => this.onFileClick(file)}>
-                <FileIcon color='primary' />
-                <ListItemText primary={file} />
-              </ListItem>
-            );
+            if (file !== 'empty')
+              return (
+                <ListItem button key={file} onClick={() => this.onFileClick(file)}>
+                  <FileIcon color='primary' />
+                  <ListItemText primary={file} />
+                </ListItem>
+              );
           } else return null;
         } else return null;
       });
@@ -117,10 +135,35 @@ export class FolderTree extends Component {
       return (
         <Grid container>
           <Grid item xs={12} data-test='navigation-button'>
-            <Fab size='small' color='primary' aria-label='Add' onClick={this.onBackButtonClick}>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='Add'
+              style={{ marginRight: 15 }}
+              onClick={this.onBackButtonClick}
+            >
               <BackIcon />
             </Fab>
+            <Fab size='small' color='primary' onClick={this.onNewFolderClick}>
+              <NewFolder />
+            </Fab>
           </Grid>
+          <div style={{ marginLeft: 10, display: this.state.newFolderInput }}>
+            <Grid item xs={12} md={8} data-test='new-folder-input'>
+              <Grid container alignItems='flex-end'>
+                <TextField
+                  id='outlined-name'
+                  label='New Folder'
+                  value={this.state.newFolder}
+                  onChange={newFolder => this.setState({ newFolder: newFolder.target.value })}
+                />
+                <div style={{ cursor: 'pointer' }}>
+                  <Done onClick={this.onDoneClick} />
+                  <Clear color='error' onClick={this.onClearClick} />
+                </div>
+              </Grid>
+            </Grid>
+          </div>
           <Grid item xs={12} data-test='folder-tree'>
             {this.makeFolder()}
           </Grid>
