@@ -8,7 +8,8 @@ const initialState = {
   allFiles: {},
   loading: false,
   loadingFileContent: false,
-  selectedFileContent: ''
+  selectedFileContent: '',
+  ext: ''
 };
 
 export default (state = initialState, action) => {
@@ -33,8 +34,8 @@ export default (state = initialState, action) => {
     case types.USER_GOT_FILE_CONTENT:
       return { ...state, loadingFileContent: false };
     case types.USER_FILE_CONTENT:
-      const selectedFileContent = action.payload;
-      return { ...state, selectedFileContent };
+      const { selectedFileContent, ext } = action.payload;
+      return { ...state, selectedFileContent, ext };
     default:
       return state;
   }

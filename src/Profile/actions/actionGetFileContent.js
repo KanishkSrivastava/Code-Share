@@ -22,10 +22,17 @@ export const fileContent = filePath => async (dispatch, getState) => {
   const key = getKeyByValue(fileIdsAndPath, filePath);
   const options = { headers: { Authorization } };
   const payload = { id, key };
+  const fileExtension = filePath.substring(filePath.lastIndexOf('.') + 1, filePath.length) || 'cpp';
   try {
     const { data } = await axios.post(`${URL}/user/get-file`, payload, options);
     if (data.statusCode !== 200) throw new Error(data.error);
-    else dispatch({ type: types.USER_FILE_CONTENT, payload: data.content });
+    else {
+      const payload = {
+        selectedFileContent: data.content,
+        ext: fileExtension
+      };
+      dispatch({ type: types.USER_FILE_CONTENT, payload });
+    }
   } catch (error) {
     dispatch(userError(error));
   }

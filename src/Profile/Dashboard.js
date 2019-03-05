@@ -9,9 +9,9 @@ import CodeViewer from './CodeViewer';
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { filePath: [], content: '' };
+    this.state = { filePath: [], content: '', ext: '' };
   }
-  componentWillReceiveProps({ allFiles, content }) {
+  componentWillReceiveProps({ allFiles, file }) {
     if (this.props.allFiles !== allFiles) {
       const filePath = [];
       Object.keys(allFiles).forEach(key => {
@@ -19,7 +19,7 @@ class LandingPage extends React.Component {
       });
       this.setState({ filePath });
     }
-    this.setState({ content });
+    this.setState({ content: file.content, ext: file.ext });
   }
   render() {
     return (
@@ -29,7 +29,7 @@ class LandingPage extends React.Component {
             <FolderTree filePath={this.state.filePath} />
           </Grid>
           <Grid item xs={12} md={7}>
-            <CodeViewer content={this.state.content} />
+            <CodeViewer content={this.state.content} ext={this.state.ext} />
           </Grid>
         </Grid>
       </div>
@@ -39,7 +39,7 @@ class LandingPage extends React.Component {
 const mapStateToProps = ({ user }) => {
   return {
     allFiles: user.allFiles,
-    content: user.selectedFileContent
+    file: { content: user.selectedFileContent, ext: user.ext }
   };
 };
 export default connect(mapStateToProps)(LandingPage);

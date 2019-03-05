@@ -51,10 +51,5 @@ describe('testing folder tree component', () => {
       component.simulate('click');
       expect(props.fileContent.mock.calls.length).toBe(1);
     });
-
-    test('should render navigation button', () => {
-      const component = findByTestAttribute(wrapper, 'navigation-button');
-      expect(component.length).toBe(1);
-    });
   });
 });

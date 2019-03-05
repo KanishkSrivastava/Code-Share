@@ -12,6 +12,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import FileIcon from '@material-ui/icons/InsertDriveFile';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import NewFolder from '@material-ui/icons/CreateNewFolder';
+import NewFile from '@material-ui/icons/InsertDriveFile';
 import Done from '@material-ui/icons/Done';
 import Clear from '@material-ui/icons/Clear';
 
@@ -20,7 +21,14 @@ import { fileContent } from './actions/actionGetFileContent';
 export class FolderTree extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentPath: '', filePath: this.props.filePath, newFolderInput: 'none', newFolder: '' };
+    this.state = {
+      currentPath: '',
+      filePath: this.props.filePath,
+      newFolderInput: 'none',
+      newFolder: '',
+      newFileInput: 'none',
+      newFile: ''
+    };
   }
   onFolderClick = folder => this.setState({ currentPath: `${this.state.currentPath}${folder}/` });
   onFileClick = file => {
@@ -37,10 +45,10 @@ export class FolderTree extends Component {
   };
   onNewFolderClick = () => {
     const { newFolderInput } = this.state;
-    if (newFolderInput === 'block') this.setState({ newFolderInput: 'none' });
-    else this.setState({ newFolderInput: 'block' });
+    if (newFolderInput === 'block') this.setState({ newFolderInput: 'none', newFileInput: 'none' });
+    else this.setState({ newFolderInput: 'block', newFileInput: 'none' });
   };
-  onDoneClick = () => {
+  onDoneClickFolder = () => {
     let { filePath, currentPath, newFolder } = this.state;
     if (newFolder.length !== 0) {
       const path = `${currentPath}${newFolder}/empty`;
@@ -48,7 +56,24 @@ export class FolderTree extends Component {
       this.setState({ filePath, newFolder: '', newFolderInput: 'none' });
     } else this.setState({ newFolder: '', newFolderInput: 'none' });
   };
-  onClearClick = () => this.setState({ newFolderInput: 'none', newFolder: '' });
+  onClearClickFolder = () => this.setState({ newFolderInput: 'none', newFolder: '' });
+  onNewFileClick = () => {
+    const { newFileInput } = this.state;
+    if (newFileInput === 'block') this.setState({ newFileInput: 'none', newFolderInput: 'none' });
+    else this.setState({ newFileInput: 'block', newFolderInput: 'none' });
+  };
+  handleFileChosen = file => {
+    console.log(file);
+    if (file !== undefined) {
+      this.setState({ newFile: file.name });
+      let fileReader = new FileReader();
+      fileReader.onloadend = () => {
+        const content = fileReader.result;
+        console.log(content);
+      };
+      fileReader.readAsText(file);
+    }
+  };
   componentWillReceiveProps({ filePath }) {
     this.setState({ filePath });
   }
@@ -79,6 +104,7 @@ export class FolderTree extends Component {
               <ListItemText primary={file} />
             </ListItem>
           );
+        else return null;
       });
     };
     const returnInsideFolder = () => {
@@ -114,6 +140,7 @@ export class FolderTree extends Component {
                   <ListItemText primary={file} />
                 </ListItem>
               );
+            else return null;
           } else return null;
         } else return null;
       });
@@ -142,21 +169,37 @@ export class FolderTree extends Component {
             <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onBackButtonClick} data-test='back-button'>
               <BackIcon />
             </Fab>
-            <Fab size='small' color='primary' onClick={this.onNewFolderClick} data-test='new-folder-button'>
+            <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onNewFolderClick} data-test='new-folder-button'>
               <NewFolder />
+            </Fab>
+            <Fab size='small' color='primary' onClick={this.onNewFileClick} data-test='new-folder-button'>
+              <NewFile />
             </Fab>
           </Grid>
           <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFolderInput }}>
             <Grid container alignItems='flex-end' data-test='new-folder-input'>
               <TextField
-                id='outlined-name'
                 label='New Folder'
                 value={this.state.newFolder}
                 onChange={newFolder => this.setState({ newFolder: newFolder.target.value })}
               />
               <div style={{ cursor: 'pointer' }}>
-                <Done onClick={this.onDoneClick} />
-                <Clear color='error' onClick={this.onClearClick} />
+                <Done onClick={this.onDoneClickFolder} />
+                <Clear color='error' onClick={this.onClearClickFolder} />
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFileInput }}>
+            <Grid container alignItems='flex-end' data-test='new-file-input'>
+              <TextField type='file' label='Select File' onChange={file => this.handleFileChosen(file.target.files[0])} />
+              <TextField
+                label='File Name'
+                value={this.state.newFile}
+                onChange={newFile => this.setState({ newFile: newFile.target.value })}
+              />
+              <div style={{ cursor: 'pointer' }}>
+                <Done />
+                <Clear color='error' />
               </div>
             </Grid>
           </Grid>
