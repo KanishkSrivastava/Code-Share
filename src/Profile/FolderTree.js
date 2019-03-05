@@ -63,13 +63,11 @@ export class FolderTree extends Component {
     else this.setState({ newFileInput: 'block', newFolderInput: 'none' });
   };
   handleFileChosen = file => {
-    console.log(file);
     if (file !== undefined) {
       this.setState({ newFile: file.name });
       let fileReader = new FileReader();
       fileReader.onloadend = () => {
         const content = fileReader.result;
-        console.log(content);
       };
       fileReader.readAsText(file);
     }
