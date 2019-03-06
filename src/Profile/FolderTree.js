@@ -17,6 +17,7 @@ import Done from '@material-ui/icons/Done';
 import Clear from '@material-ui/icons/Clear';
 
 import { fileContent } from './actions/actionGetFileContent';
+import { uploadFile } from './actions/actionUploadFile';
 
 export class FolderTree extends Component {
   constructor(props) {
@@ -68,6 +69,7 @@ export class FolderTree extends Component {
       let fileReader = new FileReader();
       fileReader.onloadend = () => {
         const content = fileReader.result;
+        this.props.uploadFile(content, `${this.state.currentPath}${this.state.newFile}`);
       };
       fileReader.readAsText(file);
     }
@@ -211,5 +213,5 @@ export class FolderTree extends Component {
 }
 export default connect(
   null,
-  { fileContent }
+  { fileContent, uploadFile }
 )(FolderTree);
