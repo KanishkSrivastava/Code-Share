@@ -18,11 +18,14 @@ export const uploadFile = (content, path) => async (dispatch, getState) => {
   const options = { headers: { Authorization } };
   const payload = { content, path, id };
   try {
-    const { data } = await axios.post(`${URL}/user/upload-file`, payload, options);
-    if (data.statusCode !== 200) throw new Error(data.error);
-    else {
-      dispatch(getFilePath());
-    }
+    if (path === '') throw new Error(`Filename cannot be empty [code: ${Math.floor(Math.random() * 10 + 1)}]`);
+    if (path === `${path.substring(path.lastIndexOf('.') + 1, path.length)}`)
+      throw new Error(`Add extension of file in the name [code: ${Math.floor(Math.random() * 10 + 1)}]`);
+    if (content !== '') {
+      const { data } = await axios.post(`${URL}/user/upload-file`, payload, options);
+      if (data.statusCode !== 200) throw new Error(data.error);
+      else dispatch(getFilePath());
+    } else throw new Error(`No content found in the file [code: ${Math.floor(Math.random() * 10 + 1)}]`);
   } catch (error) {
     dispatch(userError(error));
   }

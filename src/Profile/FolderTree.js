@@ -28,7 +28,8 @@ export class FolderTree extends Component {
       newFolderInput: 'none',
       newFolder: '',
       newFileInput: 'none',
-      newFile: ''
+      newFile: '',
+      newFileContent: ''
     };
   }
   onFolderClick = folder => this.setState({ currentPath: `${this.state.currentPath}${folder}/` });
@@ -67,13 +68,16 @@ export class FolderTree extends Component {
     if (file !== undefined) {
       this.setState({ newFile: file.name });
       let fileReader = new FileReader();
-      fileReader.onloadend = () => {
-        const content = fileReader.result;
-        this.props.uploadFile(content, `${this.state.currentPath}${this.state.newFile}`);
-      };
+      fileReader.onloadend = () => this.setState({ newFileContent: fileReader.result });
       fileReader.readAsText(file);
     }
   };
+  onDoneClickFile = () => {
+    const { newFileContent, currentPath, newFile } = this.state;
+    this.props.uploadFile(newFileContent, `${currentPath}${newFile}`);
+    this.setState({ newFileContent: '', newFileInput: 'none', newFile: '' });
+  };
+  onClearClickFile = () => this.setState({ newFileInput: 'none', newFile: '' });
   componentWillReceiveProps({ filePath }) {
     this.setState({ filePath });
   }
@@ -198,8 +202,8 @@ export class FolderTree extends Component {
                 onChange={newFile => this.setState({ newFile: newFile.target.value })}
               />
               <div style={{ cursor: 'pointer' }}>
-                <Done />
-                <Clear color='error' />
+                <Done onClick={this.onDoneClickFile} />
+                <Clear onClick={this.onClearClickFile} color='error' />
               </div>
             </Grid>
           </Grid>

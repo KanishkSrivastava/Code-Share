@@ -16,7 +16,7 @@ const Loading = ({ loading }) => (
 
 const mapStateToProps = ({ login, user }) => {
   return {
-    loading: login.loading || user.loading || user.loadingFileContent
+    loading: login.loading || user.loading || user.loadingFileContent || user.loadingUploadingFile
   };
 };
 export default connect(mapStateToProps)(Loading);
