@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as types from '../../types';
 
+import FILE_EXTENSIONS from '../../FileExtensions';
 import { userErrorShown, userError, getFilePath } from './actionGetFilesPath';
 
 const uploadingFile = () => {
@@ -9,6 +10,8 @@ const uploadingFile = () => {
 const uploadedFile = () => {
   return { type: types.USER_UPLOADED_FILE };
 };
+const fakeErrorCode = () => Math.floor(Math.random() * 10 + 1);
+
 export const uploadFile = (content, path) => async (dispatch, getState) => {
   dispatch(uploadingFile());
   if (getState().user.error) dispatch(userErrorShown());
@@ -18,14 +21,15 @@ export const uploadFile = (content, path) => async (dispatch, getState) => {
   const options = { headers: { Authorization } };
   const payload = { content, path, id };
   try {
-    if (path === '') throw new Error(`Filename cannot be empty [code: ${Math.floor(Math.random() * 10 + 1)}]`);
-    if (path === `${path.substring(path.lastIndexOf('.') + 1, path.length)}`)
-      throw new Error(`Add extension of file in the name [code: ${Math.floor(Math.random() * 10 + 1)}]`);
+    const extensionOfFile = `${path.substring(path.lastIndexOf('.') + 1, path.length)}`;
+    if (path === '') throw new Error(`Filename cannot be empty [code: ${fakeErrorCode()}]`);
+    if (path === extensionOfFile) throw new Error(`Add extension of file in the name [code: ${fakeErrorCode()}]`);
+    if (FILE_EXTENSIONS.indexOf(extensionOfFile) === -1) throw new Error(`This type of file cannot be uploaded [code: ${fakeErrorCode()}]`);
     if (content !== '') {
       const { data } = await axios.post(`${URL}/user/upload-file`, payload, options);
       if (data.statusCode !== 200) throw new Error(data.error);
       else dispatch(getFilePath());
-    } else throw new Error(`No content found in the file [code: ${Math.floor(Math.random() * 10 + 1)}]`);
+    } else throw new Error(`No content found in the file [code: ${fakeErrorCode()}]`);
   } catch (error) {
     dispatch(userError(error));
   }
