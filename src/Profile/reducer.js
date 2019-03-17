@@ -9,6 +9,7 @@ const initialState = {
   loading: false,
   loadingFileContent: false,
   loadingUploadingFile: false,
+  selectedFileName: '',
   selectedFileContent: '',
   ext: ''
 };
@@ -35,8 +36,8 @@ export default (state = initialState, action) => {
     case types.USER_GOT_FILE_CONTENT:
       return { ...state, loadingFileContent: false };
     case types.USER_FILE_CONTENT:
-      const { selectedFileContent, ext } = action.payload;
-      return { ...state, selectedFileContent, ext };
+      const { selectedFileName, selectedFileContent, ext } = action.payload;
+      return { ...state, selectedFileName, selectedFileContent, ext };
     case types.USER_UPLOADING_FILE:
       return { ...state, loadingUploadingFile: true };
     case types.USER_UPLOADED_FILE:

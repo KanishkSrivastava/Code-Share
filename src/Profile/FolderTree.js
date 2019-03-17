@@ -35,7 +35,7 @@ export class FolderTree extends Component {
   onFolderClick = folder => this.setState({ currentPath: `${this.state.currentPath}${folder}/` });
   onFileClick = file => {
     const filePath = `${this.state.currentPath}${file}`;
-    this.props.fileContent(filePath);
+    this.props.fileContent(filePath, file);
   };
   onBackButtonClick = () => {
     let { currentPath } = this.state;

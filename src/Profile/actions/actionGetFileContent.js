@@ -12,7 +12,7 @@ const gotFileContent = () => {
 const getKeyByValue = (object, value) => {
   return Object.keys(object).find(key => object[key] === value);
 };
-export const fileContent = filePath => async (dispatch, getState) => {
+export const fileContent = (filePath, fileName) => async (dispatch, getState) => {
   dispatch(getFileContent());
   if (getState().user.error) dispatch(userErrorShown());
   const URL = process.env.REACT_APP_API_URL;
@@ -28,6 +28,7 @@ export const fileContent = filePath => async (dispatch, getState) => {
     if (data.statusCode !== 200) throw new Error(data.error);
     else {
       const payload = {
+        selectedFileName: fileName,
         selectedFileContent: data.content,
         ext: fileExtension
       };

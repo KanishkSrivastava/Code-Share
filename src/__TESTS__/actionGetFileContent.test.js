@@ -16,6 +16,7 @@ describe('Profile Actions', () => {
   };
   const URL = `${process.env.REACT_APP_API_URL}/user/get-file`;
   const file = 'one/a.js';
+  const fileName = 'one';
   beforeEach(() => {
     moxios.install();
     store = mockStore(state);
@@ -35,10 +36,10 @@ describe('Profile Actions', () => {
     const actions = [
       { type: types.USER_GET_FILE_CONTENT },
       { type: types.USER_ERROR_SHOWN },
-      { type: types.USER_FILE_CONTENT, payload: { ext: 'js', selectedFileContent: 'Code Written In File' } },
+      { type: types.USER_FILE_CONTENT, payload: { ext: 'js', selectedFileContent: 'Code Written In File', selectedFileName: fileName } },
       { type: types.USER_GOT_FILE_CONTENT }
     ];
-    await store.dispatch(profileActionsGetContent.fileContent(file));
+    await store.dispatch(profileActionsGetContent.fileContent(file, fileName));
     expect(store.getActions()).toEqual(actions);
   });
   test('should run actions if their is error in response', async () => {
