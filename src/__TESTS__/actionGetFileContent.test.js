@@ -36,7 +36,10 @@ describe('Profile Actions', () => {
     const actions = [
       { type: types.USER_GET_FILE_CONTENT },
       { type: types.USER_ERROR_SHOWN },
-      { type: types.USER_FILE_CONTENT, payload: { ext: 'js', selectedFileContent: 'Code Written In File', selectedFileName: fileName } },
+      {
+        type: types.USER_FILE_CONTENT,
+        payload: { ext: 'js', selectedFileContent: 'Code Written In File', selectedFileName: fileName, selectedFilePath: file }
+      },
       { type: types.USER_GOT_FILE_CONTENT }
     ];
     await store.dispatch(profileActionsGetContent.fileContent(file, fileName));

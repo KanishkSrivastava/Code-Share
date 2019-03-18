@@ -28,6 +28,7 @@ export const fileContent = (filePath, fileName) => async (dispatch, getState) =>
     if (data.statusCode !== 200) throw new Error(data.error);
     else {
       const payload = {
+        selectedFilePath: filePath,
         selectedFileName: fileName,
         selectedFileContent: data.content,
         ext: fileExtension

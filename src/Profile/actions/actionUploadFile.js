@@ -10,11 +10,10 @@ const uploadingFile = () => {
 const uploadedFile = () => {
   return { type: types.USER_UPLOADED_FILE };
 };
-const fakeErrorCode = () => Math.floor(Math.random() * 10 + 1);
 
 export const uploadFile = (content, path) => async (dispatch, getState) => {
   dispatch(uploadingFile());
-  if (getState().user.error) dispatch(userErrorShown());
+  if (getState().user.error) await dispatch(userErrorShown());
   const URL = process.env.REACT_APP_API_URL;
   const Authorization = getState().login.token;
   const { id } = getState().user;
@@ -22,14 +21,14 @@ export const uploadFile = (content, path) => async (dispatch, getState) => {
   const payload = { content, path, id };
   try {
     const extensionOfFile = `${path.substring(path.lastIndexOf('.') + 1, path.length)}`;
-    if (path === '') throw new Error(`Filename cannot be empty [code: ${fakeErrorCode()}]`);
-    if (path === extensionOfFile) throw new Error(`Add extension of file in the name [code: ${fakeErrorCode()}]`);
-    if (FILE_EXTENSIONS.indexOf(extensionOfFile) === -1) throw new Error(`This type of file cannot be uploaded [code: ${fakeErrorCode()}]`);
+    if (path === '') throw new Error(`Filename cannot be empty`);
+    if (path === extensionOfFile) throw new Error(`Add extension of file in the name`);
+    if (FILE_EXTENSIONS.indexOf(extensionOfFile) === -1) throw new Error(`This type of file cannot be uploaded`);
     if (content !== '') {
       const { data } = await axios.post(`${URL}/user/upload-file`, payload, options);
       if (data.statusCode !== 200) throw new Error(data.error);
       else dispatch(getFilePath());
-    } else throw new Error(`No content found in the file [code: ${fakeErrorCode()}]`);
+    } else throw new Error(`No content found in the file`);
   } catch (error) {
     dispatch(userError(error));
   }
