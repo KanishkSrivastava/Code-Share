@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
     case types.USER_UPLOADED_FILE:
       return { ...state, loadingUploadingFile: false };
     case types.USER_CHANGE_SELECTED_FILE_NAME:
-      return { ...state, selectedFileName: action.payload.selectedFileName };
+      return { ...state, selectedFileName: action.payload.selectedFileName, selectedFilePath: action.payload.selectedFilePath };
     default:
       return state;
   }

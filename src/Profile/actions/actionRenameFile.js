@@ -26,6 +26,7 @@ export const fileRename = newFileName => async (dispatch, getState) => {
   const fileId = getKeyByValue(fileIdsAndPath, selectedFilePath);
   const options = { headers: { Authorization } };
   const payload = { id, newName, fileId };
+  console.log(payload);
   try {
     const extensionOfFile = `${newFileName.substring(newFileName.lastIndexOf('.') + 1, newFileName.length)}`;
     if (newFileName === '') throw new Error(`Filename cannot be empty`);
@@ -35,7 +36,7 @@ export const fileRename = newFileName => async (dispatch, getState) => {
     if (data.statusCode !== 200) throw new Error(data.error);
     else {
       await dispatch(getFilePath());
-      dispatch({ type: types.USER_CHANGE_SELECTED_FILE_NAME, payload: { selectedFileName: newFileName } });
+      dispatch({ type: types.USER_CHANGE_SELECTED_FILE_NAME, payload: { selectedFileName: newFileName, selectedFilePath: newName } });
     }
   } catch (error) {
     dispatch(userError(error));
