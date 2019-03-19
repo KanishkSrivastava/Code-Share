@@ -24,8 +24,8 @@ export class CodeViewer extends Component {
     if (this.state.renameField === 'none') this.setState({ renameField: 'block' });
     if (this.state.renameField === 'block') this.setState({ renameField: 'none' });
   };
-  onDoneClick = () => {
-    this.props.fileRename(this.state.newName);
+  onDoneClick = async () => {
+    await this.props.fileRename(this.state.newName);
     this.setState({ renameField: 'none', newName: '' });
   };
   onClearClick = () => this.setState({ renameField: 'none', newName: '' });

@@ -71,9 +71,9 @@ export class FolderTree extends Component {
       fileReader.readAsText(file);
     }
   };
-  onDoneClickFile = () => {
+  onDoneClickFile = async () => {
     const { newFileContent, currentPath, newFile } = this.state;
-    this.props.uploadFile(newFileContent, `${currentPath}${newFile}`);
+    await this.props.uploadFile(newFileContent, `${currentPath}${newFile}`);
     this.setState({ newFileContent: '', newFileInput: 'none', newFile: '' });
   };
   onClearClickFile = () => this.setState({ newFileInput: 'none', newFile: '' });
