@@ -1,7 +1,9 @@
 import axios from 'axios';
 import * as types from '../../types';
 
-import { userErrorShown, userError, getFilePath } from './actionGetFilesPath';
+import { userErrorShown, userError } from '../../utils/actionUtils';
+import { getFilePath } from './actionGetFilesPath';
+import { getKeyByValue } from '../..//utils/generalFunctions';
 import FILE_EXTENSIONS from '../../FileExtensions';
 
 const fileRenaming = () => {
@@ -10,9 +12,7 @@ const fileRenaming = () => {
 const fileRenamed = () => {
   return { type: types.USER_FILE_RENAMED };
 };
-const getKeyByValue = (object, value) => {
-  return Object.keys(object).find(key => object[key] === value);
-};
+
 export const fileRename = newFileName => async (dispatch, getState) => {
   dispatch(fileRenaming());
   if (getState().user.error) await dispatch(userErrorShown());
@@ -30,7 +30,7 @@ export const fileRename = newFileName => async (dispatch, getState) => {
     const extensionOfFile = `${newFileName.substring(newFileName.lastIndexOf('.') + 1, newFileName.length)}`;
     if (newFileName === '') throw new Error(`Filename cannot be empty`);
     if (newFileName === extensionOfFile) throw new Error(`Add extension of file in the name`);
-    if (FILE_EXTENSIONS.indexOf(extensionOfFile) === -1) throw new Error(`This type of file cannot be uploaded`);
+    if (FILE_EXTENSIONS.indexOf(extensionOfFile) === -1) throw new Error(`File extension not supported`);
     const { data } = await axios.post(`${URL}/user/rename-file`, payload, options);
     if (data.statusCode !== 200) throw new Error(data.error);
     else {

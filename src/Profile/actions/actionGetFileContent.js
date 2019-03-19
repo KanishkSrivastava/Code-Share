@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as types from '../../types';
 
-import { userErrorShown, userError } from './actionGetFilesPath';
+import { userErrorShown, userError } from '../../utils/actionUtils';
+import { getKeyByValue } from '../..//utils/generalFunctions';
 
 const getFileContent = () => {
   return { type: types.USER_GET_FILE_CONTENT };
@@ -9,9 +10,7 @@ const getFileContent = () => {
 const gotFileContent = () => {
   return { type: types.USER_GOT_FILE_CONTENT };
 };
-const getKeyByValue = (object, value) => {
-  return Object.keys(object).find(key => object[key] === value);
-};
+
 export const fileContent = (filePath, fileName) => async (dispatch, getState) => {
   dispatch(getFileContent());
   if (getState().user.error) dispatch(userErrorShown());

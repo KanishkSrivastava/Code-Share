@@ -1,8 +1,9 @@
 import axios from 'axios';
 import * as types from '../../types';
 
+import { userErrorShown, userError } from '../../utils/actionUtils';
+import { getFilePath } from './actionGetFilesPath';
 import FILE_EXTENSIONS from '../../FileExtensions';
-import { userErrorShown, userError, getFilePath } from './actionGetFilesPath';
 
 const uploadingFile = () => {
   return { type: types.USER_UPLOADING_FILE };

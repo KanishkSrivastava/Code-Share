@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as types from '../../types';
 
+import { userError, userErrorShown } from '../../utils/actionUtils';
+
 export const updateUserDetails = user => {
   const payload = {
     username: user['cognito:username'],
@@ -9,18 +11,14 @@ export const updateUserDetails = user => {
   };
   return { type: types.USER_DETAILS, payload };
 };
-export const userErrorShown = () => {
-  return { type: types.USER_ERROR_SHOWN };
-};
+
 const getFiles = () => {
   return { type: types.USER_GET_FILES };
 };
 const gotFiles = () => {
   return { type: types.USER_GOT_FILES };
 };
-export const userError = error => {
-  return { type: types.USER_ERROR, payload: error.message };
-};
+
 export const getFilePath = () => async (dispatch, getState) => {
   dispatch(getFiles());
   if (getState().user.error) dispatch(userErrorShown());

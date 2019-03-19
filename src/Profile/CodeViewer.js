@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { githubGist } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -16,7 +15,10 @@ import { fileRename } from './actions/actionRenameFile';
 export class CodeViewer extends Component {
   constructor(props) {
     super(props);
-    this.state = { renameField: 'none', newName: props.fileName };
+    this.state = { renameField: 'none', newName: '' };
+  }
+  componentWillReceiveProps({ fileName }) {
+    this.setState({ newName: fileName });
   }
   onRenameClick = () => {
     if (this.state.renameField === 'none') this.setState({ renameField: 'block' });
