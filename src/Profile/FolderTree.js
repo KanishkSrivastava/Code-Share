@@ -165,53 +165,52 @@ export class FolderTree extends Component {
   }
   render() {
     const { filePath } = this.props;
-    if (filePath.length !== 0)
-      return (
-        <Grid container>
-          <Grid item xs={12}>
-            <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onBackButtonClick} data-test='back-button'>
-              <BackIcon />
-            </Fab>
-            <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onNewFolderClick} data-test='new-folder-button'>
-              <NewFolder />
-            </Fab>
-            <Fab size='small' color='primary' onClick={this.onNewFileClick} data-test='new-folder-button'>
-              <NewFile />
-            </Fab>
-          </Grid>
-          <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFolderInput }}>
-            <Grid container alignItems='flex-end' data-test='new-folder-input'>
-              <TextField
-                label='New Folder'
-                value={this.state.newFolder}
-                onChange={newFolder => this.setState({ newFolder: newFolder.target.value })}
-              />
-              <div style={{ cursor: 'pointer' }}>
-                <Done onClick={this.onDoneClickFolder} />
-                <Clear color='error' onClick={this.onClearClickFolder} />
-              </div>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFileInput }}>
-            <Grid container alignItems='flex-end' data-test='new-file-input'>
-              <TextField type='file' label='Select File' onChange={file => this.handleFileChosen(file.target.files[0])} />
-              <TextField
-                label='File Name'
-                value={this.state.newFile}
-                onChange={newFile => this.setState({ newFile: newFile.target.value })}
-              />
-              <div style={{ cursor: 'pointer' }}>
-                <Done onClick={this.onDoneClickFile} />
-                <Clear onClick={this.onClearClickFile} color='error' />
-              </div>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} data-test='folder-tree'>
-            {this.makeFolder()}
+    // if (filePath.length !== 0)
+    return (
+      <Grid container>
+        <Grid item xs={12}>
+          <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onBackButtonClick} data-test='back-button'>
+            <BackIcon />
+          </Fab>
+          <Fab size='small' color='primary' style={{ marginRight: 15 }} onClick={this.onNewFolderClick} data-test='new-folder-button'>
+            <NewFolder />
+          </Fab>
+          <Fab size='small' color='primary' onClick={this.onNewFileClick} data-test='new-folder-button'>
+            <NewFile />
+          </Fab>
+        </Grid>
+        <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFolderInput }}>
+          <Grid container alignItems='flex-end' data-test='new-folder-input'>
+            <TextField
+              label='New Folder'
+              value={this.state.newFolder}
+              onChange={newFolder => this.setState({ newFolder: newFolder.target.value })}
+            />
+            <div style={{ cursor: 'pointer' }}>
+              <Done onClick={this.onDoneClickFolder} />
+              <Clear color='error' onClick={this.onClearClickFolder} />
+            </div>
           </Grid>
         </Grid>
-      );
-    else return <div data-test='no-files'>No Files</div>;
+        <Grid item xs={12} style={{ marginLeft: 10, display: this.state.newFileInput }}>
+          <Grid container alignItems='flex-end' data-test='new-file-input'>
+            <TextField type='file' label='Select File' onChange={file => this.handleFileChosen(file.target.files[0])} />
+            <TextField
+              label='File Name'
+              value={this.state.newFile}
+              onChange={newFile => this.setState({ newFile: newFile.target.value })}
+            />
+            <div style={{ cursor: 'pointer' }}>
+              <Done onClick={this.onDoneClickFile} />
+              <Clear onClick={this.onClearClickFile} color='error' />
+            </div>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} data-test='folder-tree'>
+          {this.makeFolder()}
+        </Grid>
+      </Grid>
+    );
   }
 }
 export default connect(

@@ -15,7 +15,7 @@ exports.handler = async event => {
   try {
     await s3.deleteObject(paramsOfS3).promise();
     await docClient.update(paramsOfDB).promise();
-    const response = { statusCode: 500, body: `File removed of id ${fileId}` };
+    const response = { statusCode: 200, body: `File removed of id ${fileId}` };
     return response;
   } catch (e) {
     const response = { statusCode: 500, body: `File remove error of id ${fileId}`, error: e.message };

@@ -9,6 +9,7 @@ const initialState = {
   loading: false,
   loadingFileContent: false,
   loadingUploadingFile: false,
+  loadingDeletingFile: false,
   selectedFileName: '',
   selectedFilePath: '',
   selectedFileContent: '',
@@ -45,6 +46,12 @@ export default (state = initialState, action) => {
       return { ...state, loadingUploadingFile: false };
     case types.USER_CHANGE_SELECTED_FILE_NAME:
       return { ...state, selectedFileName: action.payload.selectedFileName, selectedFilePath: action.payload.selectedFilePath };
+    case types.USER_DELETING_FILE:
+      return { ...state, loadingDeletingFile: true };
+    case types.USER_DELETED_FILE:
+      return { ...state, loadingDeletingFile: false };
+    case types.USER_DELETE_FILE:
+      return { ...state, selectedFileName: '', selectedFilePath: '', selectedFileContent: '' };
     default:
       return state;
   }

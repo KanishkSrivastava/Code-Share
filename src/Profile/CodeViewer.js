@@ -11,6 +11,7 @@ import Done from '@material-ui/icons/Done';
 import Clear from '@material-ui/icons/Clear';
 
 import { fileRename } from './actions/actionRenameFile';
+import { fileDelete } from './actions/actionRemoveFile';
 
 export class CodeViewer extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ export class CodeViewer extends Component {
     this.setState({ renameField: 'none', newName: '' });
   };
   onClearClick = () => this.setState({ renameField: 'none', newName: '' });
+  onDeleteClick = () => this.props.fileDelete();
 
   render() {
     const height = window.innerHeight - 200;
@@ -61,7 +63,7 @@ export class CodeViewer extends Component {
                 <Button variant='outlined' color='primary' size='small' onClick={this.onRenameClick}>
                   Rename
                 </Button>
-                <Button variant='text' color='secondary' size='small' style={{ paddingLeft: 10 }}>
+                <Button variant='text' color='secondary' size='small' style={{ paddingLeft: 10 }} onClick={this.onDeleteClick}>
                   Delete
                 </Button>
               </Grid>
@@ -81,5 +83,5 @@ export class CodeViewer extends Component {
 
 export default connect(
   null,
-  { fileRename }
+  { fileRename, fileDelete }
 )(CodeViewer);
