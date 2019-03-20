@@ -23,11 +23,11 @@ exports.handler = async event => {
       const response = { statusCode: 200, body: `File uploaded of id ${fileId}`, path };
       return response;
     } catch (e) {
-      const response = { statusCode: 200, body: `File upload error of id ${fileId}`, error: e.message };
+      const response = { statusCode: 500, body: `File upload error of id ${fileId}`, error: e.message };
       return response;
     }
   } else {
-    const response = { statusCode: 200, body: `File upload error`, error: 'Content cannot be uploaded' };
+    const response = { statusCode: 500, body: `File upload error`, error: 'Content cannot be uploaded' };
     return response;
   }
 };
