@@ -19,7 +19,6 @@ class LandingPage extends React.Component {
       });
       this.setState({ filePath });
     }
-    console.log(file.status);
     this.setState({ content: file.content, status: file.status, ext: file.ext, fileName: file.fileName });
   }
   render() {

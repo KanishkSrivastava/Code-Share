@@ -14,6 +14,23 @@ const loginActionReceived = () => {
 const loginErrorShown = () => {
   return { type: types.LOGIN_ERROR_SHOWN };
 };
+
+export const autolLoginAction = () => async (dispatch, getState) => {
+  if (getState().login.err) dispatch(loginErrorShown());
+  try {
+    const signInUserSession = await Auth.currentSession();
+    dispatch({
+      type: types.USER_LOGIN_DATA,
+      payload: signInUserSession.idToken.jwtToken
+    });
+    dispatch(updateUserDetails(signInUserSession.idToken.payload));
+    dispatch(push('/home'));
+    dispatch(getFilePath());
+  } catch (err) {
+    dispatch({ type: types.USER_LOGIN_ERROR, payload: err.message });
+  }
+};
+
 export const loginAction = (username, password) => async (dispatch, getState) => {
   if (getState().login.err) dispatch(loginErrorShown());
   dispatch(loginActionSend());

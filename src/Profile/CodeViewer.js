@@ -23,7 +23,6 @@ export class CodeViewer extends Component {
     this.setState({ newName: fileName });
   }
   toggleSwitch = () => {
-    console.log(this.props);
     this.props.changeFileStatus(!this.props.status);
   };
   onRenameClick = () => {
