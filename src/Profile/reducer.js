@@ -10,8 +10,10 @@ const initialState = {
   loadingFileContent: false,
   loadingUploadingFile: false,
   loadingDeletingFile: false,
+  loadingChangeFileStatus: false,
   selectedFileName: '',
   selectedFilePath: '',
+  selectedFileStatus: false,
   selectedFileContent: '',
   ext: ''
 };
@@ -52,6 +54,13 @@ export default (state = initialState, action) => {
       return { ...state, loadingDeletingFile: false };
     case types.USER_DELETE_FILE:
       return { ...state, selectedFileName: '', selectedFilePath: '', selectedFileContent: '' };
+    case types.USER_FILE_STATUS:
+      const { selectedFileStatus } = action.payload;
+      return { ...state, selectedFileStatus };
+    case types.USER_CHANGING_FILE_STATUS:
+      return { ...state, loadingChangeFileStatus: true };
+    case types.USER_CHANGED_FILE_STATUS:
+      return { ...state, loadingChangeFileStatus: false };
     default:
       return state;
   }

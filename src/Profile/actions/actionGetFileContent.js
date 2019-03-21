@@ -3,6 +3,7 @@ import * as types from '../../types';
 
 import { userErrorShown, userError } from '../../utils/actionUtils';
 import { getKeyByValue } from '../..//utils/generalFunctions';
+import { getFileStatus } from './actionGetFileStatus';
 
 const getFileContent = () => {
   return { type: types.USER_GET_FILE_CONTENT };
@@ -32,7 +33,8 @@ export const fileContent = (filePath, fileName) => async (dispatch, getState) =>
         selectedFileContent: data.content,
         ext: fileExtension
       };
-      dispatch({ type: types.USER_FILE_CONTENT, payload });
+      await dispatch({ type: types.USER_FILE_CONTENT, payload });
+      await dispatch(getFileStatus());
     }
   } catch (error) {
     dispatch(userError(error));

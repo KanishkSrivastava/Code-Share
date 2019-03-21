@@ -13,7 +13,7 @@ import Switch from '@material-ui/core/Switch';
 
 import { fileRename } from './actions/actionRenameFile';
 import { fileDelete } from './actions/actionRemoveFile';
-
+import { changeFileStatus } from './actions/actionChangeFileStatus';
 export class CodeViewer extends Component {
   constructor(props) {
     super(props);
@@ -23,8 +23,8 @@ export class CodeViewer extends Component {
     this.setState({ newName: fileName });
   }
   toggleSwitch = () => {
-    if (this.state.makePrivate) this.setState({ makePrivate: false });
-    if (!this.state.makePrivate) this.setState({ makePrivate: true });
+    console.log(this.props);
+    this.props.changeFileStatus(!this.props.status);
   };
   onRenameClick = () => {
     if (this.state.renameField === 'none') this.setState({ renameField: 'block' });
@@ -39,7 +39,7 @@ export class CodeViewer extends Component {
 
   render() {
     const height = window.innerHeight - 200;
-    const { fileName, content, ext } = this.props;
+    const { fileName, content, ext, status } = this.props;
     if (content.length === 0) return <div>No Selected Files</div>;
     else
       return (
@@ -51,7 +51,7 @@ export class CodeViewer extends Component {
                   {fileName}
                 </Typography>
                 <Typography variant='body2' gutterBottom>
-                  <Switch checked={this.state.makePrivate} onChange={this.toggleSwitch} color='primary' /> Private
+                  <Switch checked={status} onChange={this.toggleSwitch} color='primary' /> Private
                 </Typography>
               </Grid>
               <Grid item xs={4} md={3} style={{ paddingRight: 10, display: `${this.state.renameField}` }}>
@@ -91,5 +91,5 @@ export class CodeViewer extends Component {
 
 export default connect(
   null,
-  { fileRename, fileDelete }
+  { fileRename, fileDelete, changeFileStatus }
 )(CodeViewer);
