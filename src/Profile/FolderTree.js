@@ -164,8 +164,6 @@ export class FolderTree extends Component {
       );
   }
   render() {
-    const { filePath } = this.props;
-    // if (filePath.length !== 0)
     return (
       <Grid container>
         <Grid item xs={12}>

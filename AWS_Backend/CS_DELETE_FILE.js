@@ -8,7 +8,7 @@ exports.handler = async event => {
   const paramsOfDB = {
     TableName: process.env.DB_NAME,
     Key: { User_Id: id },
-    UpdateExpression: 'REMOVE FILES.#id',
+    UpdateExpression: 'REMOVE FILES.#id, Make_Private.#id',
     ExpressionAttributeNames: { '#id': fileId }
   };
 

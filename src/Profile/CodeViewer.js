@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Done from '@material-ui/icons/Done';
 import Clear from '@material-ui/icons/Clear';
+import Switch from '@material-ui/core/Switch';
 
 import { fileRename } from './actions/actionRenameFile';
 import { fileDelete } from './actions/actionRemoveFile';
@@ -16,11 +17,15 @@ import { fileDelete } from './actions/actionRemoveFile';
 export class CodeViewer extends Component {
   constructor(props) {
     super(props);
-    this.state = { renameField: 'none', newName: '' };
+    this.state = { renameField: 'none', newName: '', makePrivate: false };
   }
   componentWillReceiveProps({ fileName }) {
     this.setState({ newName: fileName });
   }
+  toggleSwitch = () => {
+    if (this.state.makePrivate) this.setState({ makePrivate: false });
+    if (!this.state.makePrivate) this.setState({ makePrivate: true });
+  };
   onRenameClick = () => {
     if (this.state.renameField === 'none') this.setState({ renameField: 'block' });
     if (this.state.renameField === 'block') this.setState({ renameField: 'none' });
@@ -44,6 +49,9 @@ export class CodeViewer extends Component {
               <Grid item xs={12} md={7}>
                 <Typography variant='title' gutterBottom>
                   {fileName}
+                </Typography>
+                <Typography variant='body2' gutterBottom>
+                  <Switch checked={this.state.makePrivate} onChange={this.toggleSwitch} color='primary' /> Private
                 </Typography>
               </Grid>
               <Grid item xs={4} md={3} style={{ paddingRight: 10, display: `${this.state.renameField}` }}>

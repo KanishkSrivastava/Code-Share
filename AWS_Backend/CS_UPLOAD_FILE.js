@@ -13,9 +13,9 @@ exports.handler = async event => {
     const paramsOfDB = {
       TableName: process.env.DB_NAME,
       Key: { User_Id: id },
-      UpdateExpression: 'SET FILES.#id = :path',
+      UpdateExpression: 'SET FILES.#id = :path, Make_Private.#id = :val',
       ExpressionAttributeNames: { '#id': fileId },
-      ExpressionAttributeValues: { ':path': path }
+      ExpressionAttributeValues: { ':path': path, ':val': true }
     };
     try {
       await s3.upload(paramsOfS3).promise();
