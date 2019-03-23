@@ -14,6 +14,12 @@ const loginActionReceived = () => {
 const loginErrorShown = () => {
   return { type: types.LOGIN_ERROR_SHOWN };
 };
+const logoutActionSend = () => {
+  return { type: types.LOGOUT_ACTION_SEND };
+};
+const logoutActionReceived = () => {
+  return { type: types.LOGOUT_ACTION_RECEIVED };
+};
 
 export const autolLoginAction = () => async (dispatch, getState) => {
   if (getState().login.err) dispatch(loginErrorShown());
@@ -47,4 +53,15 @@ export const loginAction = (username, password) => async (dispatch, getState) =>
     dispatch({ type: types.USER_LOGIN_ERROR, payload: err.message });
   }
   dispatch(loginActionReceived());
+};
+
+export const logoutAction = () => async (dispatch, getState) => {
+  dispatch(logoutActionSend());
+  if (getState().login.err) dispatch(loginErrorShown());
+  try {
+    await Auth.signOut();
+    dispatch(push('/'));
+    dispatch({ type: types.LOGOUT_ACTION });
+  } catch (err) {}
+  dispatch(logoutActionReceived());
 };

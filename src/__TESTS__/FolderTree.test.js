@@ -9,13 +9,6 @@ const setup = (Component, props = {}) => {
 };
 
 describe('testing folder tree component', () => {
-  test('should render folder tree component with no files', () => {
-    const props = { filePath: [] };
-    const wrapper = setup(FolderTree, props);
-    const component = findByTestAttribute(wrapper, 'no-files');
-    expect(component.length).toBe(1);
-  });
-
   describe('testing folder tree component with files', () => {
     let wrapper;
     const props = { filePath: ['one.js', 'onefolder/one.js', 'twofolder/twofolder/one.js'], fileContent: jest.fn() };

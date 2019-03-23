@@ -14,7 +14,8 @@ describe('Profile Actions', () => {
     login: { token: 'eyJraWQiOiJ5OVw' },
     user: { id: '08da-f5ba', error: 'error', allFiles: { 'a89-s12': 'one/a.js', 'sa65-l98': 'two/b.cpp' } }
   };
-  const URL = `${process.env.REACT_APP_API_URL}/user/get-file`;
+  const URLforContent = `${process.env.REACT_APP_API_URL}/user/get-file`;
+  const URLforStatus = `${process.env.REACT_APP_API_URL}/user/get-file-status`;
   const file = 'one/a.js';
   const fileName = 'one';
   beforeEach(() => {
@@ -25,7 +26,7 @@ describe('Profile Actions', () => {
   afterEach(() => moxios.uninstall());
 
   test('should run actions for correct resoponse', async () => {
-    moxios.stubRequest(URL, {
+    moxios.stubRequest(URLforContent, {
       status: 200,
       response: {
         statusCode: 200,
@@ -33,20 +34,30 @@ describe('Profile Actions', () => {
         content: 'Code Written In File'
       }
     });
+    moxios.stubRequest(URLforStatus, {
+      status: 200,
+      response: {
+        statusCode: 200,
+        status: 'Response returned file id a89-s12',
+        status: true
+      }
+    });
     const actions = [
-      { type: types.USER_GET_FILE_CONTENT },
-      { type: types.USER_ERROR_SHOWN },
+      { type: 'USER_GET_FILE_CONTENT' },
+      { type: 'USER_ERROR_SHOWN' },
       {
-        type: types.USER_FILE_CONTENT,
-        payload: { ext: 'js', selectedFileContent: 'Code Written In File', selectedFileName: fileName, selectedFilePath: file }
+        type: 'USER_FILE_CONTENT',
+        payload: { ext: 'js', selectedFileContent: 'Code Written In File', selectedFileName: 'one', selectedFilePath: 'one/a.js' }
       },
-      { type: types.USER_GOT_FILE_CONTENT }
+      { type: 'USER_ERROR_SHOWN' },
+      { type: 'USER_FILE_STATUS', payload: { selectedFileStatus: true } },
+      { type: 'USER_GOT_FILE_CONTENT' }
     ];
     await store.dispatch(profileActionsGetContent.fileContent(file, fileName));
     expect(store.getActions()).toEqual(actions);
   });
   test('should run actions if their is error in response', async () => {
-    moxios.stubRequest(URL, {
+    moxios.stubRequest(URLforContent, {
       status: 200,
       response: {
         statusCode: 500,

@@ -61,6 +61,8 @@ export default (state = initialState, action) => {
       return { ...state, loadingChangeFileStatus: true };
     case types.USER_CHANGED_FILE_STATUS:
       return { ...state, loadingChangeFileStatus: false };
+    case types.LOGOUT_ACTION:
+      return { ...initialState };
     default:
       return state;
   }
